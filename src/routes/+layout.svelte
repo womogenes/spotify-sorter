@@ -1,6 +1,5 @@
 <script>
   import '../app.css';
-  console.log('hello world');
 </script>
 
 <main class="flex h-full items-center justify-center p-6">
