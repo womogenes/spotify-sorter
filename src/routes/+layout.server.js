@@ -1,3 +1,3 @@
 export const load = ({ locals }) => {
-  return { user: locals.session?.data };
+  return { profile: locals.session?.data?.profile };
 };

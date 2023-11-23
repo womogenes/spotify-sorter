@@ -33,7 +33,12 @@ export const loginUser = async (authCode, session) => {
   ).json();
 
   // Get the profile and cache our tokens
-  const profile = await getProfile(tokens.access_token);
+  const profile = await (
+    await fetch('https://api.spotify.com/v1/me', {
+      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    })
+  ).json();
+
   await session.set({
     auth: {
       accessToken: tokens.access_token,
@@ -43,12 +48,10 @@ export const loginUser = async (authCode, session) => {
   });
 };
 
-// Get user profile (username, profile pic, etc.)
-// Assumes NO refresh token exists
-export const getProfile = async (accessToken) => {
+export const getTopTracks = async (session) => {
   return await (
-    await fetch('https://api.spotify.com/v1/me', {
-      headers: { Authorization: `Bearer ${accessToken}` },
+    await fetch('https://api.spotify.com/v1/me/top/tracks', {
+      headers: { Authorization: `Bearer ${session.data.auth.accessToken}` },
     })
   ).json();
 };
