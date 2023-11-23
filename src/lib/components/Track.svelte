@@ -7,7 +7,9 @@
 
   const fac = new FastAverageColor();
   let imgEl, containerEl;
+  let audioEl, playingPreview;
   onMount(async () => {
+    // Colorize background to match album cover image
     fac
       .getColorAsync(imgEl)
       .then((color) => {
@@ -17,6 +19,14 @@
       .catch((e) => {
         console.log('Error computing average color:', e);
       });
+
+    // Make volume softer
+    if (audioEl) {
+      audioEl.volume = 0.1;
+      audioEl.onended = () => (playingPreview = false);
+      audioEl.onplaying = () => (playingPreview = true);
+      audioEl.onpause = () => (playingPreview = false);
+    }
   });
 </script>
 
@@ -33,8 +43,10 @@
     bind:this={imgEl}
     crossorigin="anonymous"
   />
-  <div class="flex w-full flex-col self-end">
-    <span class="text-2xl font-extrabold">{title}</span>
+  <div class="z-10 flex w-full flex-col self-end overflow-auto">
+    <span class="text-lg font-extrabold leading-6 sm:text-2xl sm:leading-tight"
+      >{title}</span
+    >
     <span class="opacity-80">
       {#each artists as artist, i}
         {@html i > 0 ? ` &bull; ` : ''}
@@ -46,4 +58,20 @@
       {/each}
     </span>
   </div>
+
+  {#if previewURL}
+    <div class="flex items-end">
+      <button
+        class="rounded-full bg-white px-4 py-2 text-black transition-all hover:bg-neutral-200"
+        on:click|stopPropagation|preventDefault={audioEl.paused
+          ? audioEl.play()
+          : audioEl.pause()}
+      >
+        {playingPreview ? 'Pause' : 'Play'}
+      </button>
+      <audio preload="all" bind:this={audioEl}>
+        <source src={previewURL} />
+      </audio>
+    </div>
+  {/if}
 </a>
