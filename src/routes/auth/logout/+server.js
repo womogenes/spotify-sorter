@@ -1,4 +1,6 @@
-export const POST = async ({ locals }) => {
+import { redirect } from '@sveltejs/kit';
+
+export const GET = async ({ url, locals }) => {
   await locals.session.destroy();
-  return new Response('Logout successful', { status: 200 });
+  throw redirect(302, '/');
 };

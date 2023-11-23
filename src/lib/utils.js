@@ -19,13 +19,3 @@ export const songwhip = async (songURL) => {
   cache.set(songURL, json);
   return json;
 };
-
-export const formURLEncode = (obj) => {
-  const formData = new URLSearchParams();
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      formData.append(key, obj[key]);
-    }
-  }
-  return formData.toString();
-};
