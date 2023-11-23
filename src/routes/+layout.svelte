@@ -14,4 +14,7 @@
 </main>
 
 <style>
+  :global(h1) {
+    @apply text-3xl font-bold;
+  }
 </style>

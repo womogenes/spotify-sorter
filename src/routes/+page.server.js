@@ -9,11 +9,17 @@ import { getTopTracks } from 'src/routes/auth/spotifyAuth.js';
 
 // Get top items (artists, etc.)
 export const load = async ({ parent, locals }) => {
+  // Check for logged in
+  if (!locals.session.data.auth) return;
+
   const topTracks = await getTopTracks(locals.session);
   return {
-    topTracks: topTracks.items.map((track) => ({
+    topTracks: topTracks.map((track) => ({
       imageURL: track.album.images[0].url,
-      artists: track.artists.map((artist) => artist.name),
+      artists: track.artists.map((artist) => ({
+        name: artist.name,
+        href: artist.external_urls.spotify,
+      })),
       title: track.name,
       previewURL: track.preview_url,
       href: track.external_urls.spotify,

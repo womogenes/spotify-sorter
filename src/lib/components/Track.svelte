@@ -15,7 +15,7 @@
         if (color.isDark) containerEl.classList.add('text-white');
       })
       .catch((e) => {
-        console.log(e);
+        console.log('Error computing average color:', e);
       });
   });
 </script>
@@ -33,8 +33,17 @@
     bind:this={imgEl}
     crossorigin="anonymous"
   />
-  <div class="flex flex-col self-end">
-    <span class="-mb-1 text-2xl font-extrabold">{title}</span>
-    <span class="opacity-80">{@html artists.join(' &bull; ')}</span>
+  <div class="flex w-full flex-col self-end">
+    <span class="text-2xl font-extrabold">{title}</span>
+    <span class="opacity-80">
+      {#each artists as artist, i}
+        {@html i > 0 ? ` &bull; ` : ''}
+        <a
+          href={artist.href}
+          target="_blank"
+          class="underline-offset-2 hover:underline">{artist.name}</a
+        >
+      {/each}
+    </span>
   </div>
 </a>

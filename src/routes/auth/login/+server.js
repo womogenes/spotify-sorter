@@ -4,7 +4,7 @@ import { loginUser } from '../spotifyAuth.js';
 
 export const GET = async ({ url, locals }) => {
   // Is the user already logged in?
-  if (locals.session.data.user) {
+  if (locals.session.data.auth) {
     console.log('User already logged in, redirecting.');
     throw redirect(302, '/');
   }
