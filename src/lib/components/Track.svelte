@@ -21,7 +21,7 @@
 </script>
 
 <a
-  class="flex gap-4 rounded-lg border p-3 no-underline transition-shadow hover:shadow-lg"
+  class="flex gap-4 rounded-lg border bg-neutral-500 p-3 no-underline transition-shadow hover:shadow-lg"
   bind:this={containerEl}
   {href}
   target="_blank"
